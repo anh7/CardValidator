@@ -15,8 +15,9 @@ namespace CardValidator2.Models
     public partial class CardType
     {
         public int CardTypeId { get; set; }
-        public string ValidateRegex { get; set; }
         public string CardTypeName { get; set; }
+        public string ValidateRegex { get; set; }
         public string ExpiryYearCheck { get; set; }
+        public int RuleOrder { get; set; }
     }
 }

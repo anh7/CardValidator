@@ -9,8 +9,8 @@ namespace CardValidator2.Business.Models
     {
         public ValidateResult()
         {
-            Result = CardResult.NotExist;
-            CardType = "Unknown";
+            Result = CardResult.Valid;
+            CardType = string.Empty;
         }
         public CardResult Result { get; set; }
         public string CardType { get; set; }

@@ -5,70 +5,46 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="CardValidatorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CardValidator.dbo.Cards' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Cards">
           <Key>
             <PropertyRef Name="CardId" />
-            <PropertyRef Name="CardNumber" />
-            <PropertyRef Name="ExpiryMonth" />
-            <PropertyRef Name="ExpiryYear" />
           </Key>
           <Property Name="CardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CardNumber" Type="numeric" Precision="16" Scale="0" Nullable="false" />
           <Property Name="ExpiryMonth" Type="smallint" Nullable="false" />
           <Property Name="ExpiryYear" Type="smallint" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CardValidator.dbo.CardTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CardTypes">
           <Key>
             <PropertyRef Name="CardTypeId" />
-            <PropertyRef Name="CardTypeName" />
           </Key>
           <Property Name="CardTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ValidateRegex" Type="nvarchar" MaxLength="255" />
           <Property Name="CardTypeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ValidateRegex" Type="nvarchar" MaxLength="255" />
           <Property Name="ExpiryYearCheck" Type="nvarchar" MaxLength="255" />
+          <Property Name="RuleOrder" Type="int" Nullable="false" />
         </EntityType>
         <Function Name="CardExists" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CardNumber" Type="numeric" Mode="In" />
         </Function>
         <EntityContainer Name="CardValidatorModelStoreContainer">
-          <EntitySet Name="Cards" EntityType="Self.Cards" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Cards].[CardId] AS [CardId], 
-    [Cards].[CardNumber] AS [CardNumber], 
-    [Cards].[ExpiryMonth] AS [ExpiryMonth], 
-    [Cards].[ExpiryYear] AS [ExpiryYear]
-    FROM [dbo].[Cards] AS [Cards]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="CardTypes" EntityType="Self.CardTypes" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CardTypes].[CardTypeId] AS [CardTypeId], 
-    [CardTypes].[ValidateRegex] AS [ValidateRegex], 
-    [CardTypes].[CardTypeName] AS [CardTypeName], 
-    [CardTypes].[ExpiryYearCheck] AS [ExpiryYearCheck]
-    FROM [dbo].[CardTypes] AS [CardTypes]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Cards" EntityType="Self.Cards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CardTypes" EntityType="Self.CardTypes" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CardValidatorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CardValidatorEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Cards" EntityType="CardValidatorModel.Card" />
-          <EntitySet Name="CardTypes" EntityType="CardValidatorModel.CardType" />
           <FunctionImport Name="CardExists">
           <Parameter Name="CardNumber" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <EntitySet Name="Cards" EntityType="CardValidatorModel.Card" />
+          <EntitySet Name="CardTypes" EntityType="CardValidatorModel.CardType" />
         </EntityContainer>
         <EntityType Name="Card">
           <Key>
             <PropertyRef Name="CardId" />
-            <PropertyRef Name="CardNumber" />
-            <PropertyRef Name="ExpiryMonth" />
-            <PropertyRef Name="ExpiryYear" />
           </Key>
           <Property Name="CardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CardNumber" Type="Decimal" Nullable="false" Precision="16" Scale="0" />
@@ -78,12 +54,12 @@ warning 6002: The table/view 'CardValidator.dbo.CardTypes' does not have a prima
         <EntityType Name="CardType">
           <Key>
             <PropertyRef Name="CardTypeId" />
-            <PropertyRef Name="CardTypeName" />
           </Key>
           <Property Name="CardTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ValidateRegex" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="CardTypeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ValidateRegex" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ExpiryYearCheck" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RuleOrder" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -91,6 +67,7 @@ warning 6002: The table/view 'CardValidator.dbo.CardTypes' does not have a prima
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CardValidatorModelStoreContainer" CdmEntityContainer="CardValidatorEntities">
+          <FunctionImportMapping FunctionImportName="CardExists" FunctionName="CardValidatorModel.Store.CardExists" />
           <EntitySetMapping Name="Cards">
             <EntityTypeMapping TypeName="CardValidatorModel.Card">
               <MappingFragment StoreEntitySet="Cards">
@@ -104,14 +81,14 @@ warning 6002: The table/view 'CardValidator.dbo.CardTypes' does not have a prima
           <EntitySetMapping Name="CardTypes">
             <EntityTypeMapping TypeName="CardValidatorModel.CardType">
               <MappingFragment StoreEntitySet="CardTypes">
+                <ScalarProperty Name="RuleOrder" ColumnName="RuleOrder" />
                 <ScalarProperty Name="ExpiryYearCheck" ColumnName="ExpiryYearCheck" />
-                <ScalarProperty Name="CardTypeName" ColumnName="CardTypeName" />
                 <ScalarProperty Name="ValidateRegex" ColumnName="ValidateRegex" />
+                <ScalarProperty Name="CardTypeName" ColumnName="CardTypeName" />
                 <ScalarProperty Name="CardTypeId" ColumnName="CardTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="CardExists" FunctionName="CardValidatorModel.Store.CardExists" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

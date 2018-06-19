@@ -126,6 +126,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Business\CardValidator.cs" />
     <Compile Include="Business\Models\ValidateResult.cs" />
+    <Compile Include="Business\Utilities\MathUtility.cs" />
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
