@@ -7,11 +7,16 @@ namespace CardValidator2.Business.Models
 {
     public class ValidateResult
     {
-        public Result Result { get; set; }
+        public ValidateResult()
+        {
+            Result = CardResult.NotExist;
+            CardType = "Unknown";
+        }
+        public CardResult Result { get; set; }
         public string CardType { get; set; }
     }
 
-    public enum Result
+    public enum CardResult
     {
         Valid = 1,
         Invalid,
