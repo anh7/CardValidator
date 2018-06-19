@@ -10,7 +10,8 @@ namespace CardValidator2
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{action}/{cardNumber}"
+                routeTemplate: "{controller}/{action}/{cardNumber}",
+                defaults: new { cardNumber = RouteParameter.Optional }
             );
         }
     }

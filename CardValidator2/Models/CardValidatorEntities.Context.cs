@@ -30,13 +30,13 @@ namespace CardValidator2.Models
         public virtual DbSet<Card> Cards { get; set; }
         public virtual DbSet<CardType> CardTypes { get; set; }
     
-        public virtual int CardExists(Nullable<decimal> cardNumber)
+        public virtual ObjectResult<Nullable<int>> CardExists(Nullable<decimal> cardNumber)
         {
             var cardNumberParameter = cardNumber.HasValue ?
                 new ObjectParameter("CardNumber", cardNumber) :
                 new ObjectParameter("CardNumber", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CardExists", cardNumberParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CardExists", cardNumberParameter);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CardValidator2.Business.Models
     {
         public ValidateResult()
         {
-            Result = CardResult.Valid;
+            Result = CardResult.Invalid;
             CardType = string.Empty;
         }
         public CardResult Result { get; set; }

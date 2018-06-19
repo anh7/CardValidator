@@ -4,7 +4,7 @@ namespace CardValidator2.Business.Utilities
 {
     public static class MathUtility
     {
-        public static bool IsPrime(decimal number)
+        public static bool IsPrime(int number)
         {
 
             if (number == 1) return false;

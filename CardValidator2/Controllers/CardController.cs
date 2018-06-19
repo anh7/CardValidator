@@ -16,11 +16,11 @@ namespace CardValidator2.Controllers
         }
 
         // GET: Card/5
-        [AcceptVerbs("GET")]
-        [ResponseType(typeof(ValidateResult))]
-        public ValidateResult Validate(decimal cardNumber)
+        [AcceptVerbs("GET","POST")]
+        [ResponseType(typeof(ValidateResponse))]
+        public ValidateResponse Validate(ValidateRequest request)
         {
-            return _cardValidator.Validate(cardNumber);
+            return new ValidateResponse(_cardValidator.Validate(request));
         }
     }
 }

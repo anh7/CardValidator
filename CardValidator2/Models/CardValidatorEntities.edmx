@@ -11,8 +11,6 @@
           </Key>
           <Property Name="CardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CardNumber" Type="numeric" Precision="16" Scale="0" Nullable="false" />
-          <Property Name="ExpiryMonth" Type="smallint" Nullable="false" />
-          <Property Name="ExpiryYear" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="CardTypes">
           <Key>
@@ -21,7 +19,8 @@
           <Property Name="CardTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CardTypeName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ValidateRegex" Type="nvarchar" MaxLength="255" />
-          <Property Name="ExpiryYearCheck" Type="nvarchar" MaxLength="255" />
+          <Property Name="ExpiryYearCheckMethod" Type="nvarchar" MaxLength="255" />
+          <Property Name="ExpiryYearCheckType" Type="nvarchar" MaxLength="255" />
           <Property Name="RuleOrder" Type="int" Nullable="false" />
         </EntityType>
         <Function Name="CardExists" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -36,7 +35,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="CardValidatorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CardValidatorEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="CardExists">
+          <FunctionImport Name="CardExists" ReturnType="Collection(Int32)">
           <Parameter Name="CardNumber" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="Cards" EntityType="CardValidatorModel.Card" />
@@ -48,8 +47,6 @@
           </Key>
           <Property Name="CardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CardNumber" Type="Decimal" Nullable="false" Precision="16" Scale="0" />
-          <Property Name="ExpiryMonth" Type="Int16" Nullable="false" />
-          <Property Name="ExpiryYear" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="CardType">
           <Key>
@@ -58,7 +55,8 @@
           <Property Name="CardTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CardTypeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ValidateRegex" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ExpiryYearCheck" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ExpiryYearCheckMethod" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ExpiryYearCheckType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="RuleOrder" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
@@ -71,8 +69,6 @@
           <EntitySetMapping Name="Cards">
             <EntityTypeMapping TypeName="CardValidatorModel.Card">
               <MappingFragment StoreEntitySet="Cards">
-                <ScalarProperty Name="ExpiryYear" ColumnName="ExpiryYear" />
-                <ScalarProperty Name="ExpiryMonth" ColumnName="ExpiryMonth" />
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
                 <ScalarProperty Name="CardId" ColumnName="CardId" />
               </MappingFragment>
@@ -82,7 +78,8 @@
             <EntityTypeMapping TypeName="CardValidatorModel.CardType">
               <MappingFragment StoreEntitySet="CardTypes">
                 <ScalarProperty Name="RuleOrder" ColumnName="RuleOrder" />
-                <ScalarProperty Name="ExpiryYearCheck" ColumnName="ExpiryYearCheck" />
+                <ScalarProperty Name="ExpiryYearCheckType" ColumnName="ExpiryYearCheckType" />
+                <ScalarProperty Name="ExpiryYearCheckMethod" ColumnName="ExpiryYearCheckMethod" />
                 <ScalarProperty Name="ValidateRegex" ColumnName="ValidateRegex" />
                 <ScalarProperty Name="CardTypeName" ColumnName="CardTypeName" />
                 <ScalarProperty Name="CardTypeId" ColumnName="CardTypeId" />

@@ -16,7 +16,5 @@ namespace CardValidator2.Models
     {
         public int CardId { get; set; }
         public decimal CardNumber { get; set; }
-        public short ExpiryMonth { get; set; }
-        public short ExpiryYear { get; set; }
     }
 }
